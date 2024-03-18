@@ -1,4 +1,4 @@
-Buspilot Add-on
+# Buspilot Add-on
 
 The Buspilot Add-on is a tool designed to streamline the management of GTFS documents for bus routes and content for the Buspilot app. 
 
