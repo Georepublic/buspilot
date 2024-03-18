@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <!-- Include Skeleton CSS from CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+  <style>
+    /* Custom styles on top of Skeleton */
+    .container {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0; /* Adjust padding as necessary */
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    }
+
+    /* Form Row Spacing */
+    .form-row {
+      margin-bottom: 5px; /* Adds more space between form rows */
+    }
+
+    /* Spinner Styles */
+    .loader {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 20px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Ensure input fields take up 100% width of their parent, accounting for padding and border */
+    input[type="text"], input[type="number"], input[type="email"], input[type="password"] {
+      width: 100%;
+      box-sizing: border-box; /* Include padding and border in the element's total width */
+      margin-bottom: 10px; /* Space below each input field */
+    }
+
+    /* Adjust the button to account for any additional padding or border */
+    .button-primary {
+      width: 100%;
+      box-sizing: border-box;
+      display: block;
+      margin-bottom: 10px; /* Optional: If you want space below the button */
+    }
+
+    /* You may need to adjust or remove this if your form-row has padding that affects the width */
+    .form-row {
+      padding: 0; /* Remove padding or set as needed */
+    }
+
+    /* Hide elements initially to display spinner only */
+    #settings-form, #save-button {
+      display: none;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="loading-message">
+      <div class="loader"></div> <!-- Loader Spinner -->
+    </div>
+    <form id="settings-form">
+      <!-- Form fields will be populated here -->
+    </form>
+    <button id="save-button" class="button-primary" onclick="saveFirebaseSettings()">Save Settings</button>
+  </div>
+
+  <script>
+    // When the sidebar has loaded, call this function to populate the form with required settings.
+    document.addEventListener('DOMContentLoaded', function() {
+      google.script.run.withSuccessHandler(populateForm).getFirebaseConfiguration();
+    });
+
+    // This function is used as a success handler for getFirebaseConfiguration and populates the form.
+    function populateForm(settingsWithPlaceholders) {
+      var loadingMessage = document.getElementById('loading-message');
+      var form = document.getElementById('settings-form');
+      var saveButton = document.getElementById('save-button');
+
+      // Hide the loading message and show the save button regardless of the form population status
+      loadingMessage.style.display = 'none';
+      saveButton.style.display = 'block';
+
+      // Clear previous form fields if they exist
+      form.innerHTML = '';
+
+      Object.keys(settingsWithPlaceholders).forEach(function(key) {
+        var setting = settingsWithPlaceholders[key];
+        var inputType = setting.type || 'text'; // Use provided type or default to 'text'
+        var valueAttribute = setting.value ? 'value="' + setting.value + '"' : '';
+        var placeholderAttribute = setting.placeholder ? 'placeholder="' + setting.placeholder + '"' : '';
+        var input = '<div class="form-row">' +
+                    '<label for="' + key + '">' + key + '</label>' +
+                    '<input type="' + inputType + '" id="' + key + '" name="' + key + '" ' +
+                    placeholderAttribute + ' ' + valueAttribute + '>' +
+                    '</div>';
+        form.innerHTML += input;
+      });
+
+      // Show the form after populating it with input fields
+      form.style.display = 'block';
+    }
+
+    // Add a loading error handler for robustness
+    function handleLoadingError(error) {
+      console.error("Error loading settings: " + error);
+      var loadingMessage = document.getElementById('loading-message');
+      loadingMessage.innerHTML = "Error loading settings. Please try again or contact support if the problem persists.";
+    }
+
+    // Call the server-side function to get the settings with placeholders
+    document.addEventListener('DOMContentLoaded', function() {
+      google.script.run.withSuccessHandler(populateForm).withFailureHandler(handleLoadingError).getFirebaseConfiguration();
+    });
+
+    function saveFirebaseSettings() {
+      var settings = {};
+      var inputs = document.querySelectorAll('#settings-form input');
+      inputs.forEach(function(input) {
+        settings[input.name] = input.value;
+      });
+      google.script.run.saveFirebaseConfiguration(settings);
+    }
+  </script>
+</body>
+</html>

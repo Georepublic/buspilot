@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <!-- Include Skeleton CSS from CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+  <style>
+    /* Custom styles on top of Skeleton */
+    .container {
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px; /* Adjust padding as necessary */
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    }
+
+    /* You may want to customize the padding and margins as needed */
+    .u-full-width {
+      max-width: 100%; /* Ensuring the element is not wider than its parent */
+      margin-bottom: 10px; /* Space below each input field */
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    }
+
+    .u-max-full-width {
+      max-width: 100%; /* Ensuring the element is not wider than its parent */
+      box-sizing: border-box;
+    }
+
+    /* Ensure input fields take up 100% width of their parent, accounting for padding and border */
+    select, textarea {
+      width: 100%;
+      box-sizing: border-box; /* Include padding and border in the element's total width */
+      margin-bottom: 10px; /* Space below each input field */
+    }
+
+    /* This class is for your help content area, adjust as needed */
+    .help-content {
+      margin-top: 10px;
+    }
+
+    /* Add styles for the loading indicator */
+    .loading-indicator {
+      display: none; /* Hidden by default */
+    }
+
+    /* Spinner Styles */
+    .loader {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 20px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .spinner {
+      display: inline-block;
+      margin-left: 5px;
+      border: 2px solid rgba(0,0,0,.1);
+      border-left-color: #5b99a7;
+      border-radius: 50%;
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;
+      animation: spin 1s linear infinite;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <select id="sheet-select" class="u-full-width" onchange="showDocumentation(this.value)">
+      <!-- Options will be populated here -->
+    </select>
+
+    <button id="create-sheet-btn" onclick="createSheet()">
+      Create Sheet
+      <div id="button-spinner" class="spinner hidden"></div>
+    </button>
+
+    <!-- Initially show the loader until the dropdown is populated -->
+    <div id="loading-indicator" class="loading-indicator">
+      <div class="loader"></div> <!-- Loader Spinner -->
+    </div>
+
+    <div id="content" class="help-content">
+      <!-- Documentation content will be shown here -->
+    </div>
+  </div>
+
+  <script>
+    // Call this on DOMContentLoaded to ensure the loading message displays immediately
+    document.addEventListener('DOMContentLoaded', function() {
+      var loadingIndicator = document.getElementById('loading-indicator');
+      loadingIndicator.style.display = 'block'; // Show the loader on load
+      google.script.run.withSuccessHandler(buildDropdown).getSheetNamesForTOC();
+    });
+
+    // Builds dropdown and hides the loading indicator after
+    function buildDropdown(sheetNames) {
+      var select = document.getElementById('sheet-select');
+      var createButton = document.getElementById('create-sheet-btn');
+
+      select.innerHTML = ''; // Clear current options
+      sheetNames.forEach(function(sheetName) {
+        var option = document.createElement('option');
+        option.value = sheetName;
+        option.textContent = sheetName;
+        select.appendChild(option);
+      });
+
+      // Show the create button next to the dropdown
+      createButton.style.display = 'block';
+      // Set the initial sheet documentation view
+      showDocumentation(sheetNames[0]);
+    }
+
+    // Show the documentation for the selected sheet
+    function showDocumentation(sheetName) {
+      if (!sheetName) return; // If no sheet is selected, do nothing
+
+      // Explicitly show the loading indicator and hide previous content
+      var loadingIndicator = document.getElementById('loading-indicator');
+      var contentDiv = document.getElementById('content');
+
+      loadingIndicator.style.display = 'block'; // Show loading indicator
+      contentDiv.innerHTML = ''; // Clear out the old content
+      contentDiv.style.display = 'none'; // Hide content div while loading
+
+      google.script.run.withSuccessHandler(function(content) {
+        // Hide the loading indicator and show content upon success
+        loadingIndicator.style.display = 'none';
+        contentDiv.innerHTML = content; // Set new content
+        contentDiv.style.display = 'block'; // Show content div
+      }).getDocumentationForSheet(sheetName);
+    }
+
+    // Fetch and display the sheet names in the dropdown on load
+    document.addEventListener('DOMContentLoaded', function() {
+      google.script.run.withSuccessHandler(buildDropdown).getSheetNamesForTOC();
+    });
+
+    function createSheet() {
+      var sheetName = document.getElementById('sheet-select').value;
+      showLoadingButton();
+
+      google.script.run.withSuccessHandler(function(message) {
+        hideLoadingButton();
+        if(message) {
+          window.alert(message);
+        }
+      }).createSheetWithColumns(sheetName);
+    }
+
+    function showLoadingButton(message) {
+      document.getElementById('create-sheet-btn').disabled = true;
+      document.getElementById('button-spinner').classList.remove('hidden');
+    }
+
+    function hideLoadingButton() {
+      document.getElementById('create-sheet-btn').disabled = false;
+      document.getElementById('button-spinner').classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>
