@@ -15,9 +15,5 @@
     "https://www.googleapis.com/auth/script.container.ui",
     "https://www.googleapis.com/auth/script.external_request"
   ],
-  "exceptionLogging": "STACKDRIVER",
-  "webapp": {
-    "executeAs": "USER_ACCESSING",
-    "access": "ANYONE"
-  }
+  "exceptionLogging": "STACKDRIVER"
 }
