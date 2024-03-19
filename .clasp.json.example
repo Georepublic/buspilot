@@ -1,0 +1,6 @@
+{
+  "scriptId": "your-script-id",
+  "projectId": "your-project-id",
+  "fileExtension": "js",
+  "rootDir": "add-on"
+}
