@@ -1,4 +1,19 @@
 {
+  "addOns": {
+    "common": {
+      "name": "Buspilot Add-on",
+      "logoUrl": "https://raw.githubusercontent.com/Georepublic/buspilot/main/web/img/buspilot.png",
+      "layoutProperties": {
+        "primaryColor": "#061f32",
+        "secondaryColor": "#f7fbfb"
+      }
+    },
+    "sheets": {
+      "homepageTrigger": {
+        "runFunction": "showHelpSidebar"
+      }
+    }
+  },
   "timeZone": "Asia/Tokyo",
   "runtimeVersion": "V8",
   "dependencies": {
@@ -8,6 +23,13 @@
         "libraryId": "1VUSl4b1r1eoNcRWotZM3e87ygkxvXltOgyDZhixqncz9lQ3MjfT1iKFw",
         "version": "33"
       }
+    ],
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "Sheets",
+        "serviceId": "sheets",
+        "version": "v4"
+      }
     ]
   },
   "oauthScopes": [
@@ -15,5 +37,8 @@
     "https://www.googleapis.com/auth/script.container.ui",
     "https://www.googleapis.com/auth/script.external_request"
   ],
-  "exceptionLogging": "STACKDRIVER"
+  "exceptionLogging": "STACKDRIVER",
+  "urlFetchWhitelist": [
+    "https://api.github.com/repos/*"
+  ]
 }
