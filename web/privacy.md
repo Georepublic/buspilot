@@ -1,4 +1,8 @@
-# Privacy Policy
+---
+layout: page
+title: Privacy Policy
+permalink: /privacy/
+---
 
 ## Introduction
 

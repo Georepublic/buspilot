@@ -1,4 +1,8 @@
-# Terms of Service
+---
+layout: page
+title: Terms of Service
+permalink: /terms/
+---
 
 ## Introduction
 
@@ -23,4 +27,4 @@ We reserve the right to modify these terms at any time. We will provide notice o
 
 ## Contact Us
 
-If you have any questions about these Terms, please [contact us](support@georepublic.de).
+If you have any questions about these Terms, please [contact us](mailto:support@georepublic.de).

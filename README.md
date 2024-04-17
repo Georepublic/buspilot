@@ -30,6 +30,14 @@ The project includes a `Menu.gs` script that creates a custom menu in the Google
 * Load Templates: Create app data sheets and bus routes sheets
 * Help / Documentation: Display help documentation in a sidebar
 
+## Github Pages
+
+The `web` directory contains documents published as Github Pages. To test the pages locally run the following:
+
+```sh
+docker compose up --build
+```
+
 ## License
 
 This project is licensed under [GNU General Public License v3.0](./LICENSE).

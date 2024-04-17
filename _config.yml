@@ -1,0 +1,23 @@
+title: "Buspilot"
+email: "support@georepublic.de"
+description: "The Buspilot Add-on is a tool designed to streamline the management of GTFS documents for bus routes and content for the Buspilot app."
+baseurl: ""
+url: "https://about.buspilot.info"
+twitter_username: null
+github_username:  null
+
+# Build settings
+markdown: kramdown
+theme: minima
+
+# Site settings
+lsi: false
+safe: true
+source: "./web"
+incremental: false
+highlighter: rouge
+gist:
+  noscript: false
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge

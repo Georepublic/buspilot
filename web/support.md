@@ -1,6 +1,11 @@
-# Support 
+---
+layout: page
+title: Support
+permalink: /support/
+---
 
 ## Introduction
+
 Welcome to the Buspilot Add-on for Google Sheets! This add-on is designed to simplify the management of GTFS documents for bus routes and facilitate the content and permissions management for the Buspilot app. This document provides guidance on how to get started, troubleshoot common issues, and where to find additional support.
 
 ## Getting Started
@@ -36,7 +41,7 @@ Welcome to the Buspilot Add-on for Google Sheets! This add-on is designed to sim
 
 ## Additional Support
 
-If you encounter issues not covered in this document or need further assistance contact our support team at support@georepublic.de. Please provide detailed information about your issue, including steps to reproduce, error messages, and screenshots if possible.
+If you encounter issues not covered in this document or need further assistance contact our support team at [support@georepublic.de](mailto:support@georepublic.de). Please provide detailed information about your issue, including steps to reproduce, error messages, and screenshots if possible.
 
 ## Feedback
 
