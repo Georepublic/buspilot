@@ -13,7 +13,7 @@ theme: minima
 # Site settings
 lsi: false
 safe: true
-source: "./web"
+source: "./"
 incremental: false
 highlighter: rouge
 gist:

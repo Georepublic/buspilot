@@ -1,7 +1,12 @@
 services:
   jekyll:
     image: jekyll/jekyll:latest
-    command: jekyll serve --watch --incremental
+    command: >
+      jekyll serve
+      --watch
+      --incremental
+      --source /srv/jekyll/web
+      --config /srv/jekyll/web/_config.yml
     volumes:
       - .:/srv/jekyll
     ports:
