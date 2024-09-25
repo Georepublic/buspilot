@@ -4,8 +4,6 @@ title: Privacy Policy
 permalink: /privacy/
 ---
 
-### Privacy Policy
-
 ## Introduction
 
 This Privacy Policy outlines how the Buspilot Add-on collects, uses, shares, retains, and protects any information that you provide when using this add-on.
